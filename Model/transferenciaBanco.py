@@ -1,6 +1,6 @@
 import sqlite3
 
-def deposito(valor: float, idBanco: int):
+def transferenciaBanco(valor: float, idBanco: int):
     conexao = sqlite3.connect('bot.db')
     cursor = conexao.cursor()
 
@@ -11,5 +11,3 @@ def deposito(valor: float, idBanco: int):
     conexao.commit()
     cursor.close()
     conexao.close()
-
-deposito(-999,1)
