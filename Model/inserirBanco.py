@@ -24,7 +24,6 @@ def inserirBanco(nome: str):
         
         return True
 
-print(inserirBanco('Pepsi'))
 for banco in listarBancos.listarBancos():
     print(banco['nomeBanco'])
     print(banco['saldoBanco'])
