@@ -6,7 +6,7 @@ def query():
     cursor = conexao.cursor()
 
     cursor.execute('''
-    update bancos_usuario set emojiBanco = '🧡' where bancoID = 4
+    insert into categorias_transferencia (nomeCategoria, tipoTransf, emojiCategoria) values ('Moradia', 0, '🏠');
 ''')
 
     conexao.commit()

@@ -4,11 +4,31 @@ import telebot
 from telebot import types
 from Model.transferenciaBanco import transferenciaBanco
 from Model.listarBancos import listarBancos
+from Model.listarCategoriasTransf import listarCategoriasTransf
 from Model.especificarBanco import especificarBanco
 
 load_dotenv()
 
 bot = telebot.TeleBot(os.getenv("tokenAPI"))
+
+@bot.message_handler(['start'])
+def testeMenu(msg: types.Message):
+    tecladoTeste = types.InlineKeyboardMarkup(row_width=3)
+    
+    botoes = []
+    for categoria in listarCategoriasTransf():
+        botao = types.InlineKeyboardButton(
+            f"{categoria['nomeCategoria']}",
+            callback_data=str({categoria['categID']})
+        )
+        botoes.append(botao)
+
+    tecladoTeste.add(*botoes)
+
+    bot.send_message(msg.chat.id,
+                     "Fala meu Teste",
+                     reply_markup=tecladoTeste)
+
 
 @bot.message_handler(["menu"])
 def mostrarMenuPrincipal(msg:types.Message): #Define que o menu vai abrir quando for digitado /menu
@@ -85,6 +105,7 @@ def mostrarMenuPrincipal(msg:types.Message): #Define que o menu vai abrir quando
                 transferenciaBanco(valorTransf, bancoID)
                 banco = especificarBanco(bancoID)
                 bot.send_message(msg.chat.id,f"Saldo: {banco['saldoBanco']}")
+                mostrarMenuPrincipal('menu')
 
                 #@bot.callback_query_handler(func=lambda clique: clique.data == 'transferenciaData' bancoID: bancoID)
             #def digitarValorTransf(bancoID: bancoID, clique: types.CallbackQuery):
